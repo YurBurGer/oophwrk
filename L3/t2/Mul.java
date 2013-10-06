@@ -2,7 +2,7 @@ package t2;
 
 import t1.*;
 
-public class Mul implements IExpression {
+public class Mul extends Expression{
 	IExpression left,right;
 	public Mul(IExpression left, IExpression right) {
 		super();

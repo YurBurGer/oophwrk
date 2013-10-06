@@ -1,6 +1,6 @@
 package t1;
 
-public class Add implements IExpression {
+public class Add extends Expression {
 	IExpression left,right;
 	public Add(IExpression left, IExpression right) {
 		super();

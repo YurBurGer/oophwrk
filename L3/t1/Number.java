@@ -1,6 +1,6 @@
 package t1;
 
-public class Number implements IExpression{
+public class Number extends Expression{
 	String num;
 	public Number(String num) {
 		super();

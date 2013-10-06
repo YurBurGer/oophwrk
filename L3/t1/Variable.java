@@ -1,6 +1,6 @@
 package t1;
 
-public class Variable implements IExpression{
+public class Variable extends Expression{
 	String val;
 	/**
 	 * Constructor

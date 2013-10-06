@@ -2,7 +2,7 @@ package t2;
 
 import t1.*;
 
-public class Div implements IExpression{
+public class Div extends Expression{
 	IExpression left,right;
 	public Div(IExpression left, IExpression right) {
 		super();
