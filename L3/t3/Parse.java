@@ -1,6 +1,9 @@
 package t3;
 
 import java.util.LinkedList;
+import t1.*;
+import t1.Number;
+import t2.*;
 
 public class Parse {
 	private static LinkedList<String> toPolish(String s){
@@ -15,19 +18,23 @@ public class Parse {
 				a=a.concat(Character.toString(chstr[i]));
 			}
 			else{
-				str.addLast(Character.toString(chstr[i]));
 				if(a.compareTo("")!=0){
 					str.addLast(a);
 					a="";
 				}
+				str.addLast(Character.toString(chstr[i]));
 			}
+		}
+		if(a.compareTo("")!=0){
+			str.addLast(a);
+			a="";
 		}
 		for(String token:str){
 			char c=token.charAt(0);
 			int p=priority(c);
 			if(p>1){
 				if(stack.isEmpty()||p>maxprior){
-					out.addLast(token);
+					stack.push(token);
 					maxprior=p;
 				}
 				else{
@@ -76,7 +83,50 @@ public class Parse {
 			return 0;
 		}
 	}
-	public static void main(String[] args){
-		System.out.println(toPolish("(x+1222)*x").toString());
+	private static Expression PolishtoExpression(LinkedList<String> p){
+		LinkedList<Expression> l=new LinkedList<>();
+		for(String op:p){
+			switch(op.charAt(0)){
+			case '+':
+			case '-':
+			case '*':
+			case '/':
+				Expression a=l.pollLast();
+				l.addLast(MakeExpression(l.pollLast(),a,op.charAt(0)));
+				break;
+			default:
+				l.addLast(MakeExpression(op));
+			}
+		}
+		return l.poll();				
+	}
+	private static Expression MakeExpression(String s){
+		Expression e;
+		try{
+			Integer.parseInt(s);
+			e=new Number(s);
+		}
+		catch(NumberFormatException ex){
+			e=new Variable(s);
+			return e;
+		}
+		return e; 
+	}
+ 	private static Expression MakeExpression(Expression l,Expression r,char c){
+ 		switch(c){
+ 		case '+':
+ 			return new Add(l,r);
+ 		case '-':
+ 			return new Sub(l,r);
+ 		case '*':
+ 			return new Mul(l,r);
+ 		case '/':
+ 			return new Div(l,r);
+ 		default:
+ 			throw new UnsupportedOperationException();
+ 		}
+ 	}
+	public static Expression toExpression(String s){
+		return PolishtoExpression(toPolish(s));
 	}
 }
