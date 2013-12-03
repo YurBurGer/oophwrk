@@ -38,7 +38,7 @@ public class Parse {
 					maxprior=p;
 				}
 				else{
-					while(priority(stack.peek().charAt(0))>=p){
+					while((!stack.isEmpty())&&priority(stack.peek().charAt(0))>=p){
 						out.addLast(stack.poll());
 					}
 					stack.push(token);
